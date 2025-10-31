@@ -1,0 +1,110 @@
+<!-- file: index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite Musicians</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #00FF00; /* Bright green background */
+            color: #0000FF; /* Blue text for that classic look */
+            padding: 20px;
+        }
+        .artist-list, .artist-page {
+            background-color: #FFFF00; /* Bright yellow backgrounds */
+            border: 2px solid #FF00FF; /* Magenta borders */
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .vote-button {
+            cursor: pointer;
+            color: #FF00FF; /* Magenta text */
+            font-weight: bold;
+        }
+        .vote-button:hover {
+            text-decoration: none;
+            color: #0000FF;
+        }
+        button {
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFA500; /* Orange background */
+            color: #FFFFFF; /* White text */
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #FF4500; /* Darker orange */
+        }
+    </style>
+</head>
+<body>
+    <h1>My Favorite Musicians</h1>
+    <div id="artistList"></div>
+
+    <div id="beyonce" class="artist-page">
+        <h2>Beyoncé</h2>
+        <p>Beyoncé is an American singer, songwriter, and actress. She is known for her powerful vocals and dynamic performances. Beyoncé's music is a mix of R&B, pop, and hip hop, often with themes of love, relationships, and empowerment.</p>
+        <p><strong>Most Streamed Song:</strong> "Halo"</p>
+        <button onclick="showList()">Back</button>
+    </div>
+
+    <div id="bts" class="artist-page">
+        <h2>BTS</h2>
+        <p>BTS, also known as the Bangtan Boys, is a South Korean boy band that has gained international fame for their music and messages of self-love and social commentary. Their music spans various genres, including pop, hip-hop, and R&B.</p>
+        <p><strong>Most Streamed Song:</strong> "Dynamite"</p>
+        <button onclick="showList()">Back</button>
+    </div>
+
+    <div id="badbunny" class="artist-page">
+        <h2>Bad Bunny</h2>
+        <p>Bad Bunny is a Puerto Rican reggaeton and trap singer. His music is known for its catchy rhythms and melodies, often focusing on themes like love, partying, and social issues. Bad Bunny has played a significant role in popularizing Latin trap music globally.</p>
+        <p><strong>Most Streamed Song:</strong> "Me Porto Bonito"</p>
+        <button onclick="showList()">Back</button>
+    </div>
+
+    <script>
+        const artists = [
+            { id: 'beyonce', name: 'Beyoncé', votes: 0 },
+            { id: 'bts', name: 'BTS', votes: 0 },
+            { id: 'badbunny', name: 'Bad Bunny', votes: 0 }
+        ];
+
+        function showList() {
+            document.querySelectorAll('.artist-page').forEach(page => page.style.display = 'none');
+            document.getElementById('artistList').style.display = 'block';
+            renderArtists();
+        }
+
+        function showArtist(id) {
+            document.getElementById('artistList').style.display = 'none';
+            document.querySelectorAll('.artist-page').forEach(page => page.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function voteForArtist(id) {
+            const artist = artists.find(artist => artist.id === id);
+            artist.votes++;
+            showList();
+        }
+
+        function renderArtists() {
+            const list = document.getElementById('artistList');
+            list.innerHTML = '';
+            artists.sort((a, b) => b.votes - a.votes);
+            artists.forEach((artist, index) => {
+                const item = document.createElement('div');
+                item.className = 'artist-list';
+                item.innerHTML = `${index + 1}. ${artist.name} - Votes: ${artist.votes} <span class="vote-button" onclick="voteForArtist('${artist.id}')">Vote</span>`;
+                item.addEventListener('click', () => showArtist(artist.id));
+                list.appendChild(item);
+            });
+        }
+
+        showList();
+    </script>
+</body>
+</html>
